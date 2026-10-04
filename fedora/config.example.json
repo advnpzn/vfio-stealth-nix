@@ -1,0 +1,39 @@
+{
+  "cpuVendor": "amd",
+  "qemu": {},
+  "kernel": {
+    "timing": true,
+    "cpuidSpoof": true,
+    "cpuidPassthrough": false
+  },
+  "vm": {
+    "hypervMode": "enlightened",
+    "hypervVendorId": "AuthAMDRyzen",
+    "hypervFeatures": {"relaxed": true, "vendor_id": true},
+    "aperfMperf": true,
+    "kvmPvEnforceCpuid": false,
+    "pciMmio64Mb": 65536,
+    "stripVirtio": true,
+    "macPrefix": "D8:BB:C1",
+    "acpiSsdt": {"spoofedDevices": true, "fakeBattery": true, "sensorProbes": true},
+    "smbios": {
+      "manufacturer": "CHANGE-ME",
+      "product": "CHANGE-ME",
+      "biosVendor": "American Megatrends Inc.",
+      "biosVersion": "1001",
+      "biosDate": "01/01/2025",
+      "biosRelease": "2.4",
+      "serial": "System Serial Number",
+      "baseBoardVersion": "Rev 1.xx",
+      "baseBoardSerial": "CHANGE-ME",
+      "baseBoardAsset": "Default string",
+      "baseBoardLocation": "Default string",
+      "socketPrefix": "AM5",
+      "memory": {"manufacturer": "CHANGE-ME", "partNumber": "CHANGE-ME", "speed": 4800, "count": 2},
+      "cache": {"l1": 512, "l2": 8192, "l3": 32768, "assocL1": 7, "assocL2": 7, "assocL3": 9, "ecc": 3},
+      "oemStrings": ["Default string", "Default string", "Default string", "Default string"],
+      "onboardDevices": []
+    },
+    "cpuIdentity": null
+  }
+}

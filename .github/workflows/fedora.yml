@@ -1,0 +1,40 @@
+name: Fedora port contracts
+on:
+  pull_request:
+    paths:
+      - 'fedora/**'
+      - 'qemu/**'
+      - 'ovmf/**'
+      - 'kernel/**'
+      - 'lib/**'
+      - 'vendor/**'
+      - 'flake.lock'
+      - 'version.json'
+      - '.github/workflows/fedora.yml'
+  push:
+    branches: [main, master]
+    paths:
+      - 'fedora/**'
+      - 'qemu/**'
+      - 'ovmf/**'
+      - 'kernel/**'
+      - 'lib/**'
+      - 'vendor/**'
+      - 'flake.lock'
+      - 'version.json'
+      - '.github/workflows/fedora.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    container: registry.fedoraproject.org/fedora:44
+    steps:
+      - name: Install XML validation dependencies
+        run: dnf --setopt=install_weak_deps=False install -y git python3 python3-lxml libvirt-daemon-common
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Check native port contracts
+        run: /usr/bin/python3 -m unittest discover -s fedora -p 'test_*.py' -v

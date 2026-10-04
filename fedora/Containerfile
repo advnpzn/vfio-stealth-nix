@@ -1,0 +1,14 @@
+FROM registry.fedoraproject.org/fedora:44
+RUN dnf install -y \
+      python3 python3-pip python3-setuptools python3-wheel python3-packaging \
+      python3-virt-firmware git gcc gcc-c++ make meson ninja-build pkgconf-pkg-config \
+      patch patchutils tar xz gzip bzip2 findutils diffutils which \
+      glib2-devel pixman-devel zlib-devel libseccomp-devel libslirp-devel \
+      spice-server-devel libusb1-devel usbredir-devel libaio-devel \
+      libepoxy-devel libdrm-devel SDL2-devel gtk3-devel gnutls-devel \
+      libuuid-devel nasm acpica-tools rpm-build \
+      bison flex bc openssl-devel elfutils-libelf-devel dwarves \
+      libvirt-client libvirt-daemon-common libxml2 python3-lxml \
+    && dnf clean all
+WORKDIR /work
+ENTRYPOINT ["python3", "fedora/build.py"]

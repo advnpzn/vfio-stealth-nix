@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "nixpkgs": "7a0f122f5090cf4c2ade2a13a0e229d4e19ba71f",
+  "nixpkgsQemuVersion": "11.1.1",
+  "qemu": {
+    "11.0.3": {
+      "sha256": "da5fcffc32762820568b828ed430a728864d34d50b6d2f30358597760cbb0523"
+    },
+    "11.1.0": {
+      "sha256": "6ee1d1a61f68212476b27108c26da5f449dc09b626d42f8279ba0dc2e08fa858"
+    }
+  },
+  "edk2": {
+    "version": "202608",
+    "commit": "2970e5699ba6267f3384ffab20f96647578aebc8",
+    "nixSourceHash": "sha256-LRq5SGAcqMl9PlSaV/Q2qE1HLMXHghozwgZP4A3FCts="
+  },
+  "kernel": {
+    "version": "7.2.8",
+    "sha256": "12e8d5a973d1ad7c5a5c69882e4022b131ed715db7003fdcd760ddf8c3e51941",
+    "source": "nixpkgs linux_latest (upstream test path)"
+  },
+  "provenance": {
+    "qemu/package.nix": "8107b388f1779bd724c264a9b5c0537534650027f4f94081e3b3e0d637806f4d",
+    "lib/select-qemu-base.nix": "80f6aa1689c5ec3dd8c9b3cf4e56a50811ab8709df1777b4fecc6931af9a9277",
+    "lib/autovirt-patches.nix": "62c2004540d9dfa659ab36728c825217dc084c8bcf3c1e834467bedf40aaa7b3",
+    "version.json": "6c95129eb08b61cf0b3e7292db7e4af1636446e5e5a3bbf266de470607a34eb4",
+    "vendor/autovirt/patches/EDK2/AMD-edk2-stable202605.patch": "6295bb1e4a06792995101d7d4680d433b5e90585ae3d8fe292d90975ad1038e2",
+    "vendor/autovirt/patches/EDK2/Intel-edk2-stable202605.patch": "b48f254bba30fbbbe2a3f361c21daba0874f574db3ab36a1a64ea44c9d4b84b7",
+    "vendor/autovirt/patches/QEMU/AMD-v11.0.3.patch": "4bfb17484f874e0f8670e562f006fb76c3ef244bdadaa227e1269968b79a85e5",
+    "vendor/autovirt/patches/QEMU/AMD-v11.1.0.patch": "eb65e151b8a5fd3bfbeb9d76be9658f47e468efc0359f10a5820d456caea1db2",
+    "vendor/autovirt/patches/QEMU/Intel-v11.0.3.patch": "9f9ac16d0993b3716e8fccb56e77821b4ce4822dc3463e085118c7c9b9b2744f"
+  }
+}

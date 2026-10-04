@@ -28,6 +28,7 @@ For long-form references beyond the quick start below, see:
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — directory layout, component-to-file mapping, kernel-integration boundary
 - [`docs/BUILD.md`](docs/BUILD.md) — operator commands: dev shell, formatters, hooks, tests, update contract, troubleshooting
 - [`docs/OPTIONS.md`](docs/OPTIONS.md) — canonical `virtualisation.vfio-stealth.*` option reference
+- [`fedora/README.md`](fedora/README.md) — native Fedora build and libvirt conversion, using the repository's locked component versions without Nix
 
 ## Components
 
