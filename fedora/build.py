@@ -322,7 +322,19 @@ def build_kernel(config, source_plan, work, jobs, kernel_config):
         raise ValueError(
             "kernel requires --kernel-config /path/to/config (e.g. the Fedora /boot/config-...)"
         )
-    require("make", "gcc", "rpmbuild", "bison", "flex", "openssl", "bc", "pahole")
+    require(
+        "make",
+        "gcc",
+        "rpmbuild",
+        "bison",
+        "flex",
+        "openssl",
+        "bc",
+        "pahole",
+        "perl",
+        "rsync",
+        "hostname",
+    )
     source = prepare("kernel", config, source_plan, work)
     output = work / "kernel-build"
     output.mkdir(exist_ok=True)

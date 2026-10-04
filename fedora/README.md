@@ -224,7 +224,8 @@ the resulting binaries are not claimed to be identical to Nix outputs.
 
 `fedora/smoke.py` boots the built EFI shell from USB test media under TCG with a disposable
 unenrolled variable store, requires a marker from `startup.nsh`, and checks
-that the guest shuts down. It does not test Windows, GPU passthrough, host KVM,
+that the guest shuts down. Use `python3 fedora/smoke.py --accel kvm` to repeat
+the test with host KVM access. Neither mode tests Windows, GPU passthrough,
 or enforcement of the production Secure Boot key set.
 
 ### Validation performed on 2026-10-04
@@ -238,12 +239,18 @@ For the AMD example configuration in the Fedora 44 builder:
 - All three ACPI tables compiled, and all seven generated SMBIOS tables verified.
 - The patched Linux 7.2.8 KVM subsystem compiled, including `svm.o` and `kvm-amd.o`.
 - The EFI shell boot test passed under TCG and shut down successfully.
+- The same EFI shell test passed with host KVM on Fedora's stock AMD kernel.
+- Direct Linux boot (`-kernel`, default BIOS) with the patched QEMU timed out
+  when testing Fedora's stock kernel. Use the tested OVMF/UEFI path for this
+  stack. The independent kernel boot test uses Fedora's QEMU.
 - Nine offline tests passed, including validation against libvirt's domain XML schema.
 - Ruff checks and formatting checks passed.
 - `vfio-stealth-amd-11.1.0-1.fc44.x86_64.rpm` was built (about 26 MiB).
 
 The RPM uses example build-time identities. Customize and rebuild before using
-your own hardware identity. No package was installed and no host boot or VM
-configuration was changed. Intel has resolver/rendering coverage but was not
-compiled in this validation run. A full host kernel RPM, a Windows guest boot,
-GPU passthrough, and the optional TPM identity changes were not validated.
+your own hardware identity. A subsequent host installation installed this RPM
+alongside Fedora's QEMU and updated an existing VM to use it and the patched
+OVMF, preserving its TPM and UEFI variables and using a new disk overlay.
+Libvirt accepted the updated domain. Intel has resolver/rendering coverage but
+was not compiled in this validation run. A full host kernel RPM, a Windows guest
+boot, GPU passthrough, and the optional TPM identity changes remain unvalidated.

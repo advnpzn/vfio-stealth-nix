@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Boot the built QEMU/OVMF pair under TCG; no KVM or host installation needed."""
+"""Boot the built QEMU/OVMF pair under TCG (default) or available host KVM."""
 
 import argparse
 import shutil
@@ -11,7 +11,7 @@ from pathlib import Path
 from common import ROOT
 
 
-def smoke(work, vendor):
+def smoke(work, vendor, accel="tcg"):
     stage = work / "stage"
     prefix = stage / f"usr/libexec/vfio-stealth/{vendor}"
     firmware = stage / f"usr/share/edk2/vfio-stealth-{vendor}"
@@ -34,11 +34,11 @@ def smoke(work, vendor):
             "-L",
             str(prefix / "share/qemu"),
             "-machine",
-            "q35,accel=tcg,smm=on",
+            f"q35,accel={accel},smm=on",
             "-global",
             "driver=cfi.pflash01,property=secure,value=on",
             "-cpu",
-            "max",
+            "host" if accel == "kvm" else "max",
             "-m",
             "512",
             "-nodefaults",
@@ -60,8 +60,13 @@ def smoke(work, vendor):
             "-device",
             "usb-storage,drive=esp,bootindex=1",
         ]
-        print("Booting the patched QEMU/OVMF pair under TCG...", flush=True)
-        with (work / "firmware-smoke.log").open("w") as output:
+        log_path = work / (
+            "firmware-smoke.log" if accel == "tcg" else "firmware-smoke-kvm.log"
+        )
+        print(
+            f"Booting the patched QEMU/OVMF pair under {accel.upper()}...", flush=True
+        )
+        with log_path.open("w") as output:
             try:
                 result = subprocess.run(
                     command,
@@ -72,12 +77,12 @@ def smoke(work, vendor):
                 )
             except subprocess.TimeoutExpired as error:
                 raise ValueError(
-                    f"Firmware smoke test timed out; see {work / 'firmware-smoke.log'}"
+                    f"Firmware smoke test timed out; see {log_path}"
                 ) from error
-        log = (work / "firmware-smoke.log").read_text(errors="replace")
+        log = log_path.read_text(errors="replace")
         if result.returncode or "VFIO_FIRMWARE_BOOT_OK" not in log:
             raise ValueError(
-                f"Firmware did not complete the EFI shell test; see {work / 'firmware-smoke.log'}"
+                f"Firmware did not complete the EFI shell test; see {log_path}"
             )
         print("PASS: EFI shell booted and completed startup.nsh")
 
@@ -86,8 +91,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--work", type=Path, default=ROOT / "build/fedora")
     parser.add_argument("--vendor", choices=("amd", "intel"), default="amd")
+    parser.add_argument("--accel", choices=("tcg", "kvm"), default="tcg")
     args = parser.parse_args()
-    smoke(args.work.resolve(), args.vendor)
+    smoke(args.work.resolve(), args.vendor, args.accel)
 
 
 if __name__ == "__main__":

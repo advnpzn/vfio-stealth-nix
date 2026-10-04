@@ -7,7 +7,8 @@ RUN dnf install -y \
       spice-server-devel libusb1-devel usbredir-devel libaio-devel \
       libepoxy-devel libdrm-devel SDL2-devel gtk3-devel gnutls-devel \
       libuuid-devel nasm acpica-tools rpm-build \
-      bison flex bc openssl-devel elfutils-libelf-devel dwarves \
+      bison flex bc openssl openssl-devel elfutils-libelf-devel elfutils-devel dwarves \
+      perl rsync hostname cpio zstd \
       libvirt-client libvirt-daemon-common libxml2 python3-lxml \
     && dnf clean all
 WORKDIR /work
